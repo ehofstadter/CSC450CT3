@@ -1,6 +1,34 @@
 #include <iostream>
 #include <new>
 
+//function for user variable input; validates that inputs are integer value only. Having this as a separate method makes it so failures only interrupt a single input instead of impacting any previous successful variables.
+int retrieveValidatedInt(const std::string& prompt) {
+	int value = 0;
+	while (true){
+		std::cout << prompt;
+		if (std::cin>>value) {
+			if (std::cin.peek() == '\n' || std::cin.peek() == ' '){
+				return value;
+			}
+		}
+
+		std::cout << "ERROR: Invalid integer input or overflow.\n";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+}
+
+
+//deallocate function utilizes the 'delete' operator to remove each pointer from memory by first checking if it has a non-null value, and then setting value to nullptr.
+void deallocate(int*& ptr) {
+	if(ptr != nullptr){
+		delete ptr;
+		ptr = nullptr;
+	}
+}
+
+
+//request three integer inputs. create an integer pointer for each. display contents of both variable and pointer. delete pointer from memory.
 int main(){
 
 	int firstNum = 0;
@@ -47,28 +75,6 @@ int main(){
 		std::cout<<"\n...all gone!";
 	}
 
+	return 0;
+
 }
-int retrieveValidatedInt(const std::string& prompt) {
-	int value = 0;
-	while (true){
-		std::cout << prompt;
-		if (std::cin>>value) {
-			if (std::cin.peek() == '\n' || std::cin.peek() == ' '){
-				return value;
-			}
-		}
-
-		std::cout << "ERROR: Invalid integer input or overflow.\n";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
-}
-
-void deallocate(int*& ptr) {
-	if(ptr != nullptr){
-		delete ptr;
-		ptr = nullptr;
-	}
-}
-
-
